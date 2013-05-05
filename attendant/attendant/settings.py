@@ -1,8 +1,8 @@
 # Django settings for attendant project.
-import os
-APP_DIR = os.path.dirname( globals()['__file__'] )
+from mongoengine import connect
 
 DBNAME = 'AttendantApp'
+DB_CONNECTION = connect(DBNAME)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -35,6 +35,8 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
+
+AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -117,6 +119,8 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+SESSION_ENGINE = 'mongoengine.django.sessions'
+
 ROOT_URLCONF = 'attendant.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -126,7 +130,6 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join( APP_DIR, 'templates' )
 )
 
 INSTALLED_APPS = (
@@ -137,6 +140,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'attendant.attendantapp',
+    'mongoengine.django.mongo_auth',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

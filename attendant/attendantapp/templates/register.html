@@ -1,0 +1,14 @@
+<h1>Register</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'attendantapp: register' %}" method="POST">
+	{% csrf_token %}
+	{% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }}: {{ field }}
+        </div>
+    {% endfor %}
+	<p><input type="submit" value="Register"></p>
+</form>
