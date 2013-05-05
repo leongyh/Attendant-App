@@ -1,4 +1,8 @@
 # Django settings for attendant project.
+import os
+APP_DIR = os.path.dirname( globals()['__file__'] )
+
+DBNAME = 'AttendantApp'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -11,7 +15,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.dummy', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': '',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
@@ -20,6 +24,17 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
+
+# MongoEngine includes a Django authentication backend, which uses MongoDB.
+# The User model is a MongoEngine Document, but implements most of the methods
+# and attributes that the standard Django User model does - so the two are
+# moderately compatible. Using this backend will allow you to store users in
+# MongoDB but still use many of the Django authentication infrastucture (such
+# as the login_required() decorator and the authenticate() function). To enable
+# the MongoEngine auth backend, added the following to you settings.py file.
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+)
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -111,6 +126,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join( APP_DIR, 'templates' )
 )
 
 INSTALLED_APPS = (
@@ -120,6 +136,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'attendant.attendantapp',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
